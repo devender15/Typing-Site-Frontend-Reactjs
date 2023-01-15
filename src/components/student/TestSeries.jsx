@@ -10,8 +10,6 @@ import { FaUserAlt } from "react-icons/fa";
 import { GiLevelTwo } from "react-icons/gi";
 import { RiUser3Line } from "react-icons/ri";
 
-
-
 const TestSeries = ({ user }) => {
   const { test_id } = useParams();
   const navigate = useNavigate();
@@ -21,16 +19,13 @@ const TestSeries = ({ user }) => {
   // fetching userToken from localStorage
   const userToken = fetchUser();
 
-
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/exams/get_live_tests/${test_id}`)
       .then((res) => res.json())
-      .then((data) => (data?.length === 0 ? navigate("/") : setLiveTests(data)));
+      .then((data) => (data?.error ? navigate("/") : setLiveTests(data)));
   }, []);
 
-
   const handleJoinRoom = (roomCode, test_id) => {
-    
     const request = {
       method: "POST",
       headers: {
@@ -86,12 +81,17 @@ const TestSeries = ({ user }) => {
                     </div>
 
                     <p className="font-sans text-sm font-semibold">
-                      {test?.test_name} : {test?.created_at.slice(2, 10)} - {test?.id}
+                      {test?.test_name} : {test?.created_at.slice(2, 10)} -{" "}
+                      {test?.id}
                     </p>
 
                     <div className="flex flex-col space-y-3 md:space-y-0 md:flex-row md:items-center md:space-x-4">
                       <p className="flex space-x-2 items-center text-gray-500">
-                        <AiOutlineClockCircle color="gray" size={15} title="Time limit"/>
+                        <AiOutlineClockCircle
+                          color="gray"
+                          size={15}
+                          title="Time limit"
+                        />
                         <span className="text-sm">{test?.time} Seconds</span>
                       </p>
 
@@ -101,14 +101,17 @@ const TestSeries = ({ user }) => {
                       </p>
 
                       <p className="flex space-x-2 items-center text-gray-500">
-                        <GiLevelTwo color="gray" size={15} title="Level"/>
+                        <GiLevelTwo color="gray" size={15} title="Level" />
                         <span className="text-sm">{test?.paragraph}</span>
                       </p>
                     </div>
                   </div>
 
                   <div>
-                    <button className="bg-gradient-to-r from-green-400 to-green-500 text-white px-2 md:px-6 py-2 font-semibold rounded-md" onClick={() => handleJoinRoom(test?.code, test?.test_id)}>
+                    <button
+                      className="bg-gradient-to-r from-green-400 to-green-500 text-white px-2 md:px-6 py-2 font-semibold rounded-md"
+                      onClick={() => handleJoinRoom(test?.code, test?.test_id)}
+                    >
                       Start Test
                     </button>
                   </div>
@@ -122,7 +125,10 @@ const TestSeries = ({ user }) => {
               <RiUser3Line size={60} />
               <p className="font-semibold">{user?.fname}</p>
               <hr />
-              <button className="bg-gradient-to-r from-blue-400 to-blue-500 text-white px-2 py-1 rounded-md" onClick={Logout}>
+              <button
+                className="bg-gradient-to-r from-blue-400 to-blue-500 text-white px-2 py-1 rounded-md"
+                onClick={Logout}
+              >
                 Log Out
               </button>
             </div>
