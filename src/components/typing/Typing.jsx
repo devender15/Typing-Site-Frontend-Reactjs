@@ -71,7 +71,7 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
     typedWords: 0,
     accuracy: 0,
     speed: 0,
-    cpmSpeed: 0
+    cpmSpeed: 0,
   });
   const [keystrokes, setKeystrokes] = useState(
     cachedData ? cachedData.keystrokes : 0
@@ -80,12 +80,16 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
     cachedData ? cachedData.backspaceCount : 0
   );
 
-
-    // here goes our functins and hooks
+  // here goes our functins and hooks
   const eventHandler = (e) => {
     if (e.key === "Backspace") {
-      setBackspaceKeyCount((prev) => prev + 1);
-      setKeystrokes(keystrokes - 1);
+
+      if(roomSettings?.backspace) {
+        setBackspaceKeyCount((prev) => prev + 1);
+        setKeystrokes(keystrokes - 1);
+      }
+
+      e.stopPropagation();
     }
   };
 
@@ -129,17 +133,6 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
 
         return newResult;
       });
-
-      // adding the correct word in the correctWordsValue array
-      // setCorrectWordsValue(data => {
-      //   const word = value.trim();
-      //   const newResult = [...data];
-      //   if(word === getCloud[activeWordIndex]) {
-      //     newResult[activeWordIndex] = word;
-      //   }
-      //   return newResult;
-      // })
-
 
       // incorrect word
       setIncorrectWordArray((data) => {
@@ -201,7 +194,7 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
           <div className="w-full p-2 bg-blue-500">
             <p className="text-white font-bold">Keyboard Layout: QWERTY</p>
           </div>
-          
+
           <div className="h-[40%] overflow-hidden">
             <div className="mt-4 mb-2 border-2 overflow-y-scroll h-[9rem] w-[50%] break-words p-1">
               <p className="h-full text-lg">
@@ -223,6 +216,7 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
           <div className="border-2 w-[50%] h-[9rem]">
             <textarea
               value={userInput}
+              id="text-box"
               onChange={(e) => {
                 processInput(e.target.value);
               }}
