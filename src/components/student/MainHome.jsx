@@ -83,67 +83,11 @@ const MainHome = ({ loggedIn }) => {
                         </div>
                         <hr />
 
-                        <div className="flex flex-col space-y-2">
-                          <form className="my-1 w-full md:mx-auto rounded-md bg-teal-200 flex flex-col space-y-1 text-sm p-1">
-                            <h1 className="text-center text-lg mb-4">
-                              Test settings
-                            </h1>
-
-                            <div className="flex justify-between items-center px-4">
-                              <label htmlFor={`highlight${test?.id}`}>
-                                Highlight the words ?
-                              </label>
-                              <input
-                                type="checkbox"
-                                name={`highlight${test?.id}`}
-                                id={`highlight${test?.id}`}
-                                checked={highlight}
-                                onChange={(e) => setHighlight(e.target.checked)}
-                                className="rounded-lg p-1 border-2 border-yellow-500 text-center outline-none uppercase focus:shadow-lg transition-shadow duration-100 cursor-pointer"
-                              />
-                            </div>
-
-                            <div className="flex justify-between items-center px-4">
-                              <label htmlFor={`backspace${test?.id}`}>
-                                Allow Backspace ?
-                              </label>
-                              <input
-                                type="checkbox"
-                                name={`backspace${test?.id}`}
-                                id={`backspace${test?.id}`}
-                                checked={backspace}
-                                onChange={(e) => setBackspace(e.target.checked)}
-                                className="rounded-lg p-1 border-2 border-yellow-500 text-center outline-none uppercase focus:shadow-lg transition-shadow duration-100 cursor-pointer"
-                              />
-                            </div>
-
-                            <div className="flex justify-between items-center px-4">
-                              <label htmlFor={`scroll${test?.id}`}>
-                                Autoscrolling ?
-                              </label>
-                              <input
-                                type="checkbox"
-                                name={`scroll${test?.id}`}
-                                id={`scroll${test?.id}`}
-                                checked={autoScrolling}
-                                onChange={(e) =>
-                                  setAutoScrolling(e.target.checked)
-                                }
-                                className="rounded-lg p-1 border-2 border-yellow-500 text-center outline-none uppercase focus:shadow-lg transition-shadow duration-100 cursor-pointer"
-                              />
-                            </div>
-                          </form>
-                        </div>
-
                         <button
                           className="bg-blue-500 hover:bg-blue-600 transition-all duration-100 rounded-md text-white px-2 py-1 font-bold disabled:bg-gray-500"
                           onClick={() => {
                             if (loggedIn) {
                               navigate(`/test-series/${test?.id}`);
-                              localStorage.setItem(
-                                "roomSettings",
-                                JSON.stringify(roomSettings)
-                              );
                             } else navigate("/options");
                           }}
                           disabled={test?.live === 0}

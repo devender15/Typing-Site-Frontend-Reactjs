@@ -18,6 +18,16 @@ const Room = ({ userToken, leaveRoomCallback, user, joinedToggle }) => {
   const { roomCode } = useParams();
   const navigate = useNavigate();
 
+  const [highlight, setHighlight] = useState(true);
+  const [backspace, setBackspace] = useState(true);
+  const [autoScrolling, setAutoScrolling] = useState(true);
+
+  let roomSettings = {
+    highlight,
+    backspace,
+    autoScrolling,
+  };
+
   document.title = "Typing Test Room | Typing site";
 
   // checking if the user is already in a room or not
@@ -122,9 +132,55 @@ const Room = ({ userToken, leaveRoomCallback, user, joinedToggle }) => {
           provident id molestiae dolorum animi eaque aliquam exercitationem,
           reprehenderit pariatur fugit officia.
         </p>
+
+        <div className="flex flex-col w-[85%] space-y-2">
+          <form className="my-1 w-full md:mx-auto rounded-md bg-teal-200 flex flex-col space-y-1 text-sm p-1">
+            <h1 className="text-center text-lg mb-4">Test settings</h1>
+
+            <div className="flex justify-between items-center px-4">
+              <label htmlFor="highlight">Highlight the words ?</label>
+              <input
+                type="checkbox"
+                name="highlight"
+                id="highlight"
+                checked={highlight}
+                onChange={(e) => setHighlight(e.target.checked)}
+                className="rounded-lg p-1 border-2 border-yellow-500 text-center outline-none uppercase focus:shadow-lg transition-shadow duration-100 cursor-pointer"
+              />
+            </div>
+
+            <div className="flex justify-between items-center px-4">
+              <label htmlFor="backspace">Allow Backspace ?</label>
+              <input
+                type="checkbox"
+                name="backspace"
+                id="backspace"
+                checked={backspace}
+                onChange={(e) => setBackspace(e.target.checked)}
+                className="rounded-lg p-1 border-2 border-yellow-500 text-center outline-none uppercase focus:shadow-lg transition-shadow duration-100 cursor-pointer"
+              />
+            </div>
+
+            <div className="flex justify-between items-center px-4">
+              <label htmlFor="autoscroll">Autoscrolling ?</label>
+              <input
+                type="checkbox"
+                name="autoscroll"
+                id="autoscroll"
+                checked={autoScrolling}
+                onChange={(e) => setAutoScrolling(e.target.checked)}
+                className="rounded-lg p-1 border-2 border-yellow-500 text-center outline-none uppercase focus:shadow-lg transition-shadow duration-100 cursor-pointer"
+              />
+            </div>
+          </form>
+        </div>
+
         <button
           className="rounded-md px-2 py-1 text-white my-2 bg-teal-500 hover:bg-teal-600"
-          onClick={() => setShowInstructions(false)}
+          onClick={() => {
+            setShowInstructions(false);
+            localStorage.setItem("roomSettings", JSON.stringify(roomSettings));
+          }}
         >
           I understand
         </button>
