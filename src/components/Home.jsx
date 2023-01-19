@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
+// import { Routes, Route } from "react-router-dom";
 import axios from "axios";
 import Alert from "react-bootstrap/Alert";
 
 import fetchUser from "../utils/FetchUser";
 
 // importing required components
-import { Admin, Teacher, Student, Navbar } from "./";
+import { Teacher, Student, Navbar } from "./";
 import Spinner from "./Spinner";
 import MainHome from "./student/MainHome";
+import ProfileSettings from "./ProfileSettings";
 
 const Home = () => {
   // const navigate = useNavigate();
@@ -44,7 +46,6 @@ const Home = () => {
       setLoading(false);
     } catch (err) {
       localStorage.removeItem("user");
-      console.log("You session has expired! Please login again");
       setLoggedIn(false);
       setLoading(false);
     }
@@ -79,51 +80,53 @@ const Home = () => {
   }, [userToken]);
 
   return (
-    <div>
-      <Navbar
-        role={
-          userData?.is_superuser
-            ? "Admin"
-            : !userData?.is_superuser && userData?.is_staff
-            ? "Teacher"
-            : userData?.is_active
-            ? "Student"
-            : ""
-        }
-        loggedIn={loggedIn}
-        setLoggedIn={setLoggedIn}
-        setUserData={setUserData}
-        className="mb-10"
-      />
-
-      {loading && <Spinner />}
-
-      {!userData ? (
-        <MainHome loggedIn={loggedIn} />
-      ) : userData?.is_staff ? (
-        <Teacher
-          user={userData}
-          roomCode={roomCode}
-          clearRoomCode={clearRoomCode}
-          notify={notify}
-          showNotify={showNotify}
-          setShowNotify={setShowNotify}
-          joinedToggle={joinedToggle}
-          setLoggedIn={setLoggedIn}
-        />
-      ) : (
-        <Student
-          user={userData}
-          notify={notify}
-          showNotify={showNotify}
-          setShowNotify={setShowNotify}
-          joinedToggle={joinedToggle}
-          setJoinedToggle={setJoinedToggle}
+    <>
+      <div>
+        <Navbar
+          role={
+            userData?.is_superuser
+              ? "Admin"
+              : !userData?.is_superuser && userData?.is_staff
+              ? "Teacher"
+              : userData?.is_active
+              ? "Student"
+              : ""
+          }
           loggedIn={loggedIn}
           setLoggedIn={setLoggedIn}
+          setUserData={setUserData}
+          className="mb-10"
         />
-      )}
-    </div>
+
+        {loading && <Spinner />}
+
+        {!userData ? (
+          <MainHome loggedIn={loggedIn} />
+        ) : userData?.is_staff ? (
+          <Teacher
+            user={userData}
+            roomCode={roomCode}
+            clearRoomCode={clearRoomCode}
+            notify={notify}
+            showNotify={showNotify}
+            setShowNotify={setShowNotify}
+            joinedToggle={joinedToggle}
+            setLoggedIn={setLoggedIn}
+          />
+        ) : (
+          <Student
+            user={userData}
+            notify={notify}
+            showNotify={showNotify}
+            setShowNotify={setShowNotify}
+            joinedToggle={joinedToggle}
+            setJoinedToggle={setJoinedToggle}
+            loggedIn={loggedIn}
+            setLoggedIn={setLoggedIn}
+          />
+        )}
+      </div>
+    </>
   );
 };
 

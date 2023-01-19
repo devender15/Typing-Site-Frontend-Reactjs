@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Routes, Route, Navigate } from "react-router-dom";
 
-// import { CardContainer } from "../";
 import JoinRoom from "./JoinRoom";
 import Room from "../teacher/Room";
 import MainHome from "./MainHome";
 import TestSeries from "./TestSeries";
+import ProfileSettings from "../ProfileSettings";
 
 import fetchUser from "../../utils/FetchUser";
 
@@ -16,7 +16,6 @@ const Student = ({
   setLoggedIn,
   loggedIn,
 }) => {
-  const navigate = useNavigate();
   document.title = "Student Panel | Typing site";
   const userToken = fetchUser();
 
@@ -28,7 +27,7 @@ const Student = ({
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer " + userToken,
+        Authorization: "Bearer " + userToken,
       },
     })
       .then((response) => response.json())
@@ -82,6 +81,12 @@ const Student = ({
               user={user}
               leaveRoomCallback={clearRoomCode}
             />
+          }
+        />
+        <Route
+          path="/profile-settings"
+          element={
+            <ProfileSettings user={user && user} userToken={userToken} />
           }
         />
       </Routes>

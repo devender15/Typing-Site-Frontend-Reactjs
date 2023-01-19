@@ -14,8 +14,7 @@ import CreateRoom from "./CreateRoom";
 import Room from "./Room";
 import PreviousContests from "./PreviousContests";
 import RoomDetails from "./RoomDetails";
-
-
+import ProfileSettings from "../ProfileSettings";
 
 const Teacher = ({
   user,
@@ -171,6 +170,10 @@ const Teacher = ({
           element={<PreviousContests user={user && user} />}
         />
         <Route path="/room-details/:roomId" element={<RoomDetails />} />
+        <Route
+          path="/profile-settings"
+          element={<ProfileSettings user={user && user} userToken={userToken} />}
+        />
       </Routes>
     </div>
   );
