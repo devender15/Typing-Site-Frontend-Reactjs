@@ -45,7 +45,7 @@ const Navbar = ({ role, loggedIn, setLoggedIn, setUserData }) => {
         {loggedIn ? (
           <FaUserCog
             size={25}
-            title="Profile Settings"
+            title="Profile"
             className="cursor-pointer"
             onClick={() => navigate("/profile-settings")}
           />
@@ -53,7 +53,7 @@ const Navbar = ({ role, loggedIn, setLoggedIn, setUserData }) => {
 
         <button
           className={`rounded-lg text-white  px-2 py-1 font-semibold cursor-pointer ${
-            loggedIn ? "bg-red-500" : "bg-blue-600"
+            loggedIn ? "bg-red-500 hover:bg-red-600" : "bg-blue-600 hover:bg-blue-700"
           }`}
           onClick={loggedIn ? logOut : handleLogin}
         >

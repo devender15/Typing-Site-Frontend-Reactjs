@@ -5,7 +5,7 @@ import JoinRoom from "./JoinRoom";
 import Room from "../teacher/Room";
 import MainHome from "./MainHome";
 import TestSeries from "./TestSeries";
-import ProfileSettings from "../ProfileSettings";
+import Settings from "../userSettings/Settings";
 
 import fetchUser from "../../utils/FetchUser";
 
@@ -84,10 +84,8 @@ const Student = ({
           }
         />
         <Route
-          path="/profile-settings"
-          element={
-            <ProfileSettings user={user && user} userToken={userToken} />
-          }
+          path="/profile-settings/*"
+          element={<Settings user={user && user} userToken={userToken} />}
         />
       </Routes>
     </div>

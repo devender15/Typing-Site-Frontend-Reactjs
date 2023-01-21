@@ -9,7 +9,7 @@ import fetchUser from "../utils/FetchUser";
 import { Teacher, Student, Navbar } from "./";
 import Spinner from "./Spinner";
 import MainHome from "./student/MainHome";
-import ProfileSettings from "./ProfileSettings";
+import ProfileSettings from "./userSettings/ProfileSettings";
 
 const Home = () => {
   // const navigate = useNavigate();
