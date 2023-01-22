@@ -21,13 +21,13 @@ const LoginOption = () => {
         </h1>
         <div className="my-4 flex flex-col md:flex-row space-y-4 md:space-x-4 md:space-y-0 md:items-center md:justify-center">
           <button
-            className="px-2 py-1 text-white font-semibold rounded-md bg-yellow-400"
+            className="px-4 py-2 text-white font-semibold rounded-lg transition-all duration-300 bg-gradient-to-r from-yellow-400 to-yellow-500 hover:ring hover:ring-yellow-400"
             onClick={() => navigate("/login/teacher")}
           >
             Teacher
           </button>
           <button
-            className="px-2 py-1 text-white font-semibold rounded-md bg-pink-600"
+            className="px-4 py-2 text-white font-semibold rounded-lg transition-all duration-300 bg-gradient-to-r from-[#cc2b5e] to-[#753a88] hover:ring hover:ring-pink-600"
             onClick={() => navigate("/login/student")}
           >
             Student
