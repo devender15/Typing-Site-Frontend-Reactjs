@@ -121,7 +121,7 @@ const Sidebar = ({
   return (
     <>
       <div className=" w-[25%] flex flex-col space-y-0">
-        <div className="w-full flex flex-col space-y-1 items-start p-2 border-l-2 border-t-2 border-r-2 border-black">
+        <div className="w-full flex flex-col space-y-1 items-start p-2 border-l-2 border-t-2 border-r-2 border-black text-sm">
           <p>
             <b>Keystrokes Count </b> : {keystrokes}
           </p>

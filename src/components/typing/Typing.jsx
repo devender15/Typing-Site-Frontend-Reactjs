@@ -6,20 +6,34 @@ import { IoCaretBack } from "react-icons/io5";
 import Sidebar from "./Sidebar";
 import Timer from "./Timer";
 
+// importing utility functions
 import ModalComponent from "../../utils/Modal";
+import paragraph from "../../utils/paragraph";
 
-const getCloud =
-  `Success can be defined as achieving the goals in life One can be successful if one puts in the effort and works hard. It is impossible to achieve success and achieve your goals without continuous effort and hard work. Being successful in our career or being a successful human is the ultimate goal of every Being successful in our career or being a successful human is the ultimate goal of every individual in today’s world everyone wants to be successful but what is a success. The perspective of success varies from person to person. For the record, the people before us have a different view on success and the person after us will have a different view on success`.split(
-    " "
-  );
+
+
 
 function Word({ text, active, correct, roomSettings }) {
   if (correct === true) {
-    return <span className="text-green-700">{text} </span>;
+    return (
+      <span
+        className="text-green-700"
+        style={{ fontSize: Number(roomSettings?.fontSize) }}
+      >
+        {text}{" "}
+      </span>
+    );
   }
 
   if (correct === false) {
-    return <span className="text-red-600">{text} </span>;
+    return (
+      <span
+        className="text-red-600"
+        style={{ fontSize: Number(roomSettings?.fontSize) }}
+      >
+        {text}{" "}
+      </span>
+    );
   }
 
   if (active === true) {
@@ -30,13 +44,16 @@ function Word({ text, active, correct, roomSettings }) {
             ? "font-semibold bg-yellow-300"
             : "font-normal"
         }
+        style={{ fontSize: Number(roomSettings?.fontSize) + "px" }}
       >
         {text}{" "}
       </span>
     );
   }
 
-  return <span>{text} </span>;
+  return (
+    <span style={{ fontSize: Number(roomSettings?.fontSize) }}>{text} </span>
+  );
 }
 
 // avoiding excess re-rendering
@@ -80,11 +97,13 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
     cachedData ? cachedData.backspaceCount : 0
   );
 
+  // typing paragraph
+  const getCloud = paragraph(roomSettings, roomDetails);
+
   // here goes our functins and hooks
   const eventHandler = (e) => {
     if (e.key === "Backspace") {
-
-      if(roomSettings?.backspace) {
+      if (roomSettings?.backspace) {
         setBackspaceKeyCount((prev) => prev + 1);
         setKeystrokes(keystrokes - 1);
       }
@@ -197,7 +216,7 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
 
           <div className="h-[40%] overflow-hidden">
             <div className="mt-4 mb-2 border-2 overflow-y-scroll h-[9rem] w-[50%] break-words p-1">
-              <p className="h-full text-lg">
+              <p className="h-full">
                 {getCloud.map((word, index) => {
                   return (
                     <Word

@@ -13,6 +13,7 @@ const CreateRoom = ({ userToken }) => {
   const [time, setTime] = useState(60);
   const [paragraph, setParagraph] = useState("easy");
   const [criteria, setCriteria] = useState("");
+  const [paragraphText, setParagraphText] = useState("");
 
   const navigate = useNavigate();
 
@@ -67,6 +68,7 @@ const CreateRoom = ({ userToken }) => {
         time,
         paragraph,
         criteria,
+        paragraphText,
       }),
     };
 
@@ -162,10 +164,21 @@ const CreateRoom = ({ userToken }) => {
             ></textarea>
           </div>
 
+          <div className="flex flex-col space-y-2 justify-between items-center px-4">
+            <label htmlFor="paragraph">Add Paragraph</label>
+            <textarea
+              name="paragraph"
+              id="paragraph"
+              value={paragraphText}
+              onChange={(e) => setParagraphText(e.target.value)}
+              className="w-full rounded-lg p-2 outline-none text-sm font-semibold"
+            ></textarea>
+          </div>
+
           <div className="w-full py-4 flex items-center justify-center">
             <button
               className="rounded-lg text-white bg-green-600 px-2 py-1 disabled:bg-gray-400"
-              disabled={criteria.length === 0}
+              disabled={criteria.length === 0 || paragraphText.length === 0}
               onClick={handleCreateRoom}
             >
               Create Room

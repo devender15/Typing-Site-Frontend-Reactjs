@@ -4,8 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { FiSettings } from "react-icons/fi";
 import { GrDocumentPerformance } from "react-icons/gr";
 
-
-const ProfileSettings = ({ userToken }) => {
+const ProfileSettings = ({ userToken, user }) => {
   const navigate = useNavigate();
 
   // if user is not logged in then redirect to home page
@@ -22,12 +21,14 @@ const ProfileSettings = ({ userToken }) => {
         </div>
       </Link>
 
-      <Link to="performance">
-        <div className="rounded-lg p-10 text-xl shadow-md cursor-pointer flex flex-col justify-center items-center space-y-4 hover:shadow-xl transition-all duration-100">
-          <GrDocumentPerformance size={50} />
-          <p>Show Performance</p>
-        </div>
-      </Link>
+      {!user?.is_staff ? (
+        <Link to="performance">
+          <div className="rounded-lg p-10 text-xl shadow-md cursor-pointer flex flex-col justify-center items-center space-y-4 hover:shadow-xl transition-all duration-100">
+            <GrDocumentPerformance size={50} />
+            <p>Show Performance</p>
+          </div>
+        </Link>
+      ) : null}
     </div>
   );
 };

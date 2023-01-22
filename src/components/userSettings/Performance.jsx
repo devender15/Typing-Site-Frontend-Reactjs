@@ -3,40 +3,11 @@ import { useNavigate } from "react-router-dom";
 
 const Performance = ({ user, userToken }) => {
   const navigate = useNavigate();
-
-  const [performances, setPerformances] = useState([]);
+  const [hasPerformance, setHasPerformance] = useState(false);
   const [overallPerformance, setOverallPerformance] = useState({});
 
-  const calculateOverallPerformance = () => {
-    let wpm,
-      cpm,
-      accuracy,
-      errors,
-      time_taken = 0;
-
-    performances.forEach((performance) => {
-      console.log(performance);
-      wpm += performance.wpm;
-      cpm += performance.cpm;
-      accuracy += performance.accuracy;
-      errors += performance.errors;
-      time_taken = performance.time_taken;
-    });
-
-    let final_data = {
-      wpm: wpm / performances.length,
-      cpm: cpm / performances.length,
-      accuracy: accuracy / performance.length,
-      errors: errors / performance.length,
-      time_taken: time_taken / performance.length,
-    };
-
-    console.log(final_data);
-    setOverallPerformance(final_data);
-  };
-
   useEffect(() => {
-    if (!userToken) navigate("/");
+    if (!userToken || user?.is_staff) navigate("/");
   }, []);
 
   useEffect(() => {
@@ -49,14 +20,43 @@ const Performance = ({ user, userToken }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setPerformances(data);
-        calculateOverallPerformance();
+        // setting hasPerfomance boolean true to show the perfomance to user
+        setHasPerformance(true);
+
+        // calculating the average performance
+        if (data.length > 0) {
+          let wpm = 0;
+          let cpm = 0;
+          let accuracy = 0;
+          let errors = 0;
+          let time_taken = 0;
+
+          data?.forEach((score) => {
+            wpm += score.wpm;
+            cpm += score.cpm;
+            accuracy += score.accuracy;
+            errors += score.errors;
+            time_taken += score.time_taken;
+          });
+
+          setOverallPerformance((prev) => {
+            let obj = { ...prev };
+            obj.wpm = (wpm / data.length).toFixed(2);
+            obj.cpm = (cpm / data.length).toFixed(2);
+            obj.accuracy = (accuracy / data.length).toFixed(2);
+            obj.time_taken = (time_taken / data.length).toFixed(2);
+            obj.errors = Math.ceil(errors / data.length);
+            return obj;
+          });
+        } else {
+          setHasPerformance(false);
+        }
       });
   }, []);
 
   return (
     <div className="w-full h-full p-2 flex flex-col justify-center items-center">
-      {performances?.length > 0 ? (
+      {hasPerformance ? (
         <>
           {" "}
           <div className="my-4 text-center">
@@ -68,27 +68,45 @@ const Performance = ({ user, userToken }) => {
             <div className="flex flex-col items-center space-y-3 w-full md:w-[60%] lg:w-[70%]">
               <div className="w-full md:[w-65%] lg:w-1/2 px-2 md:px-6 flex justify-between items-center">
                 <p className="font-semibold">WPM</p>
-                <p>{isNaN(overallPerformance.wpm) ? 0 : overallPerformance.wpm}</p>
+                <p>
+                  {isNaN(overallPerformance.wpm) ? 0 : overallPerformance.wpm}
+                </p>
               </div>
 
               <div className="w-full md:[w-65%] lg:w-1/2 px-2 md:px-6 flex justify-between items-center">
                 <p className="font-semibold">CPM</p>
-                <p>{isNaN(overallPerformance.cpm) ? 0 : overallPerformance.cpm}</p>
+                <p>
+                  {isNaN(overallPerformance.cpm) ? 0 : overallPerformance.cpm}
+                </p>
               </div>
 
               <div className="w-full md:[w-65%] lg:w-1/2 px-2 md:px-6 flex justify-between items-center">
                 <p className="font-semibold">Accuracy</p>
-                <p>{isNaN(overallPerformance.accuracy) ? 0 : overallPerformance.accuracy} %</p>
+                <p>
+                  {isNaN(overallPerformance.accuracy)
+                    ? 0
+                    : overallPerformance.accuracy}{" "}
+                  %
+                </p>
               </div>
 
               <div className="w-full md:[w-65%] lg:w-1/2 px-2 md:px-6 flex justify-between items-center">
                 <p className="font-semibold">Errors</p>
-                <p>{isNaN(overallPerformance.errors) ? 0 : overallPerformance.errors}</p>
+                <p>
+                  {isNaN(overallPerformance.errors)
+                    ? 0
+                    : overallPerformance.errors}
+                </p>
               </div>
 
               <div className="w-full md:[w-65%] lg:w-1/2 px-2 md:px-6 flex justify-between items-center">
                 <p className="font-semibold">Time Taken</p>
-                <p>{isNaN(overallPerformance.time_taken) ? 0 : overallPerformance.time_taken} seconds</p>
+                <p>
+                  {isNaN(overallPerformance.time_taken)
+                    ? 0
+                    : overallPerformance.time_taken}{" "}
+                  seconds
+                </p>
               </div>
             </div>
           </div>

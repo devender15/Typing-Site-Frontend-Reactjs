@@ -18,14 +18,19 @@ const Room = ({ userToken, leaveRoomCallback, user, joinedToggle }) => {
   const { roomCode } = useParams();
   const navigate = useNavigate();
 
+  // room settings states
   const [highlight, setHighlight] = useState(true);
   const [backspace, setBackspace] = useState(true);
   const [autoScrolling, setAutoScrolling] = useState(true);
+  const [fontSize, setFontSize] = useState(20);
+  const [paragraph, setParagraph] = useState("");
 
   let roomSettings = {
     highlight,
     backspace,
     autoScrolling,
+    fontSize,
+    paragraph,
   };
 
   document.title = "Typing Test Room | Typing site";
@@ -96,7 +101,7 @@ const Room = ({ userToken, leaveRoomCallback, user, joinedToggle }) => {
 
   const renderInstructions = () => {
     return (
-      <div className="flex flex-col space-y-2 justify-center p-2 mx-auto shadow-md rounded-md items-center border-2 border-teal-400 w-[75%] max-h-[60%] overflow-y-scroll break-words">
+      <div className="flex flex-col space-y-2 justify-center p-2 mx-auto shadow-md rounded-md items-center border-2 border-teal-400 w-[75%] max-h-[60%] my-10 overflow-y-scroll break-words">
         <h2 className="text-center text-xl font-bold">General Instructions</h2>
         <p className="font-semibold">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut nemo
@@ -134,7 +139,7 @@ const Room = ({ userToken, leaveRoomCallback, user, joinedToggle }) => {
         </p>
 
         <div className="flex flex-col w-[85%] space-y-2">
-          <form className="my-1 w-full md:mx-auto rounded-md bg-teal-200 flex flex-col space-y-1 text-sm p-1">
+          <form className="my-1 px-16 w-full md:mx-auto rounded-md bg-teal-200 flex flex-col space-y-1 text-sm py-2">
             <h1 className="text-center text-lg mb-4">Test settings</h1>
 
             <div className="flex justify-between items-center px-4">
@@ -171,6 +176,29 @@ const Room = ({ userToken, leaveRoomCallback, user, joinedToggle }) => {
                 onChange={(e) => setAutoScrolling(e.target.checked)}
                 className="rounded-lg p-1 border-2 border-yellow-500 text-center outline-none uppercase focus:shadow-lg transition-shadow duration-100 cursor-pointer"
               />
+            </div>
+
+            <div className="flex justify-between items-center px-4">
+              <label htmlFor="font">Font Size ( in pixels )</label>
+              <input
+                type="number"
+                name="font"
+                id="font"
+                value={fontSize}
+                onChange={(e) => setFontSize(e.target.value)}
+                className="rounded-lg p-1 border-2 border-teal-500 text-center outline-none uppercase focus:shadow-lg transition-shadow duration-100"
+              />
+            </div>
+
+            <div className="flex flex-col space-y-2 justify-between items-center px-4">
+              <label htmlFor="paragraph">Add your own paragraph</label>
+              <textarea
+                name="paragraph"
+                id="paragraph"
+                value={paragraph}
+                onChange={(e) => setParagraph(e.target.value)}
+                className="w-full rounded-lg p-2 outline-none text-sm font-semibold"
+              ></textarea>
             </div>
           </form>
         </div>
