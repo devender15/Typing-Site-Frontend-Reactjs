@@ -138,70 +138,72 @@ const Room = ({ userToken, leaveRoomCallback, user, joinedToggle }) => {
           reprehenderit pariatur fugit officia.
         </p>
 
-        <div className="flex flex-col w-[85%] space-y-2">
-          <form className="my-1 px-16 w-full md:mx-auto rounded-md bg-teal-200 flex flex-col space-y-1 text-sm py-2">
-            <h1 className="text-center text-lg mb-4">Test settings</h1>
+        {!user.is_staff ? (
+          <div className="flex flex-col w-[85%] space-y-2">
+            <form className="my-1 px-16 w-full md:mx-auto rounded-md bg-teal-200 flex flex-col space-y-1 text-sm py-2">
+              <h1 className="text-center text-lg mb-4">Test settings</h1>
 
-            <div className="flex justify-between items-center px-4">
-              <label htmlFor="highlight">Highlight the words ?</label>
-              <input
-                type="checkbox"
-                name="highlight"
-                id="highlight"
-                checked={highlight}
-                onChange={(e) => setHighlight(e.target.checked)}
-                className="rounded-lg p-1 border-2 border-yellow-500 text-center outline-none uppercase focus:shadow-lg transition-shadow duration-100 cursor-pointer"
-              />
-            </div>
+              <div className="flex justify-between items-center px-4">
+                <label htmlFor="highlight">Highlight the words ?</label>
+                <input
+                  type="checkbox"
+                  name="highlight"
+                  id="highlight"
+                  checked={highlight}
+                  onChange={(e) => setHighlight(e.target.checked)}
+                  className="rounded-lg p-1 border-2 border-yellow-500 text-center outline-none uppercase focus:shadow-lg transition-shadow duration-100 cursor-pointer"
+                />
+              </div>
 
-            <div className="flex justify-between items-center px-4">
-              <label htmlFor="backspace">Allow Backspace ?</label>
-              <input
-                type="checkbox"
-                name="backspace"
-                id="backspace"
-                checked={backspace}
-                onChange={(e) => setBackspace(e.target.checked)}
-                className="rounded-lg p-1 border-2 border-yellow-500 text-center outline-none uppercase focus:shadow-lg transition-shadow duration-100 cursor-pointer"
-              />
-            </div>
+              <div className="flex justify-between items-center px-4">
+                <label htmlFor="backspace">Allow Backspace ?</label>
+                <input
+                  type="checkbox"
+                  name="backspace"
+                  id="backspace"
+                  checked={backspace}
+                  onChange={(e) => setBackspace(e.target.checked)}
+                  className="rounded-lg p-1 border-2 border-yellow-500 text-center outline-none uppercase focus:shadow-lg transition-shadow duration-100 cursor-pointer"
+                />
+              </div>
 
-            <div className="flex justify-between items-center px-4">
-              <label htmlFor="autoscroll">Autoscrolling ?</label>
-              <input
-                type="checkbox"
-                name="autoscroll"
-                id="autoscroll"
-                checked={autoScrolling}
-                onChange={(e) => setAutoScrolling(e.target.checked)}
-                className="rounded-lg p-1 border-2 border-yellow-500 text-center outline-none uppercase focus:shadow-lg transition-shadow duration-100 cursor-pointer"
-              />
-            </div>
+              <div className="flex justify-between items-center px-4">
+                <label htmlFor="autoscroll">Autoscrolling ?</label>
+                <input
+                  type="checkbox"
+                  name="autoscroll"
+                  id="autoscroll"
+                  checked={autoScrolling}
+                  onChange={(e) => setAutoScrolling(e.target.checked)}
+                  className="rounded-lg p-1 border-2 border-yellow-500 text-center outline-none uppercase focus:shadow-lg transition-shadow duration-100 cursor-pointer"
+                />
+              </div>
 
-            <div className="flex justify-between items-center px-4">
-              <label htmlFor="font">Font Size ( in pixels )</label>
-              <input
-                type="number"
-                name="font"
-                id="font"
-                value={fontSize}
-                onChange={(e) => setFontSize(e.target.value)}
-                className="rounded-lg p-1 border-2 border-teal-500 text-center outline-none uppercase focus:shadow-lg transition-shadow duration-100"
-              />
-            </div>
+              <div className="flex justify-between items-center px-4">
+                <label htmlFor="font">Font Size ( in pixels )</label>
+                <input
+                  type="number"
+                  name="font"
+                  id="font"
+                  value={fontSize}
+                  onChange={(e) => setFontSize(e.target.value)}
+                  className="rounded-lg p-1 border-2 border-teal-500 text-center outline-none uppercase focus:shadow-lg transition-shadow duration-100"
+                />
+              </div>
 
-            <div className="flex flex-col space-y-2 justify-between items-center px-4">
-              <label htmlFor="paragraph">Add your own paragraph</label>
-              <textarea
-                name="paragraph"
-                id="paragraph"
-                value={paragraph}
-                onChange={(e) => setParagraph(e.target.value)}
-                className="w-full rounded-lg p-2 outline-none text-sm font-semibold"
-              ></textarea>
-            </div>
-          </form>
-        </div>
+              <div className="flex flex-col space-y-2 justify-between items-center px-4">
+                <label htmlFor="paragraph">Add your own paragraph</label>
+                <textarea
+                  name="paragraph"
+                  id="paragraph"
+                  value={paragraph}
+                  onChange={(e) => setParagraph(e.target.value)}
+                  className="w-full rounded-lg p-2 outline-none text-sm font-semibold"
+                ></textarea>
+              </div>
+            </form>
+          </div>
+        ) : null}
 
         <button
           className="rounded-md px-2 py-1 text-white my-2 bg-teal-500 hover:bg-teal-600"

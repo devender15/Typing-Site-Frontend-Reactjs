@@ -17,6 +17,7 @@ const Sidebar = ({
   activeWordIndex,
   currentProgress,
   setCurrentProgress,
+  setUserRank,
 }) => {
   const score = localStorage.getItem("currentProgress")
     ? JSON.parse(localStorage.getItem("currentProgress"))
@@ -31,6 +32,14 @@ const Sidebar = ({
   // fetching userToken from localStorage
   const userToken = fetchUser();
 
+  const request = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + userToken,
+    },
+  };
+
   useEffect(() => {
     let id;
     if (startCounting) {
@@ -43,8 +52,35 @@ const Sidebar = ({
     };
   }, [startCounting]);
 
+  const saveProgress = () => {
+    // sending student's data to backend
+    fetch(`${process.env.REACT_APP_API_URL}/user-auth/save-progress`, {
+      ...request,
+      body: JSON.stringify({
+        wpm: speed,
+        cpm: speed * 5,
+        accuracy: accuracy,
+        half_mistakes: 0,
+        full_mistakes: 0,
+        errors: incorrectWords,
+        time_taken: timeElapsed,
+        rank: 1,
+      }),
+    }).then((res) => {
+      if (res.status === 201) {
+        fetch(`${process.env.REACT_APP_API_URL}/room/get-rank`, {
+          ...request,
+          method: "GET",
+        })
+          .then((res) => res.json())
+          .then((data) => setUserRank(data.rank));
+      }
+    });
+  };
+
   useEffect(() => {
     if (timeElapsed >= time) {
+      saveProgress();
       setStartCounting(false);
       setShowModal(true);
       setFinished(true);
@@ -82,40 +118,16 @@ const Sidebar = ({
     if (localStorage.getItem("roomSettings"))
       localStorage.removeItem("roomSettings");
 
-    const request = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + userToken,
-      },
-    };
-
-    // sending student's data to backend
-    fetch(`${process.env.REACT_APP_API_URL}/user-auth/save-progress`, {
-      ...request,
-      body: JSON.stringify({
-        wpm: speed,
-        cpm: 0,
-        accuracy: accuracy,
-        half_mistakes: 0,
-        full_mistakes: 0,
-        errors: incorrectWords,
-        time_taken: timeElapsed,
-        rank: 1,
-      }),
-    }).then((res) => {
-      if (res.status === 201) {
-        // leaving the room
-        fetch(`${process.env.REACT_APP_API_URL}/room/leave-room`, request).then(
-          (response) => {
-            leaveRoomCallback();
-            navigate("/");
-          }
-        );
-      } else {
-        console.log("Something went wrong!");
+    fetch(`${process.env.REACT_APP_API_URL}/room/leave-room`, request).then(
+      (response) => {
+        if (response.ok) {
+          leaveRoomCallback();
+          navigate("/");
+        } else {
+          console.log("something went wrong!");
+        }
       }
-    });
+    );
   };
 
   return (

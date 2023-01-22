@@ -6,6 +6,7 @@ import axios from "axios";
 import { FaUsers } from "react-icons/fa";
 import { GrPersonalComputer } from "react-icons/gr";
 import { BsBookFill } from "react-icons/bs";
+import { FiUsers } from "react-icons/fi";
 
 import { CardContainer, ExamList } from "../";
 
@@ -13,6 +14,7 @@ import { CardContainer, ExamList } from "../";
 import CreateRoom from "./CreateRoom";
 import Room from "./Room";
 import PreviousContests from "./PreviousContests";
+import LiveTests from "./LiveTests";
 import RoomDetails from "./RoomDetails";
 import Settings from "../userSettings/Settings";
 
@@ -45,6 +47,10 @@ const Teacher = ({
     {
       name: "See all previous contests",
       icon: GrPersonalComputer,
+    },
+    {
+      name: "Live contests",
+      icon: FiUsers,
     },
   ];
 
@@ -168,6 +174,10 @@ const Teacher = ({
         <Route
           path="/see-all-previous-contests/*"
           element={<PreviousContests user={user && user} />}
+        />
+        <Route
+          path="/live-contests"
+          element={<LiveTests user={user && user} />}
         />
         <Route path="/room-details/:roomId" element={<RoomDetails />} />
         <Route

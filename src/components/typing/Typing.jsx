@@ -68,6 +68,7 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
   const [showModal, setShowModal] = useState(false);
   const [finished, setFinished] = useState(false);
   const [userInput, setUserInput] = useState("");
+  const [userRank, setUserRank] = useState(0);
   const [correctWordArray, setCorrectWordArray] = useState(
     cachedData ? cachedData.correctIndices : []
   );
@@ -97,8 +98,12 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
     cachedData ? cachedData.backspaceCount : 0
   );
 
+
+
   // typing paragraph
   const getCloud = paragraph(roomSettings, roomDetails);
+
+  
 
   // here goes our functins and hooks
   const eventHandler = (e) => {
@@ -205,7 +210,7 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
         show={showModal}
         onHide={() => setShowModal(false)}
         heading="Test finished! 🎉"
-        paragraph={`Hey ${user?.fname}! Please click on submit button to save your progress.`}
+        paragraph={`Hey ${user?.fname}, you finished #${userRank}! Please click on submit button to save your progress.`}
       />
 
       <div className="flex items-start justify-between w-full h-full">
@@ -262,6 +267,7 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
           activeWordIndex={activeWordIndex}
           currentProgress={currentProgress}
           setCurrentProgress={setCurrentProgress}
+          setUserRank={setUserRank}
         />
       </div>
     </div>
