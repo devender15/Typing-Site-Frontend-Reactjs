@@ -10,9 +10,6 @@ import Timer from "./Timer";
 import ModalComponent from "../../utils/Modal";
 import paragraph from "../../utils/paragraph";
 
-
-
-
 function Word({ text, active, correct, roomSettings }) {
   if (correct === true) {
     return (
@@ -68,7 +65,6 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
   const [showModal, setShowModal] = useState(false);
   const [finished, setFinished] = useState(false);
   const [userInput, setUserInput] = useState("");
-  const [userRank, setUserRank] = useState(0);
   const [correctWordArray, setCorrectWordArray] = useState(
     cachedData ? cachedData.correctIndices : []
   );
@@ -98,12 +94,12 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
     cachedData ? cachedData.backspaceCount : 0
   );
 
-
+  // perfomance states
+  const [userRank, setUserRank] = useState(0);
+  const [topper, setTopper] = useState({});
 
   // typing paragraph
   const getCloud = paragraph(roomSettings, roomDetails);
-
-  
 
   // here goes our functins and hooks
   const eventHandler = (e) => {
@@ -210,7 +206,8 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
         show={showModal}
         onHide={() => setShowModal(false)}
         heading="Test finished! 🎉"
-        paragraph={`Hey ${user?.fname}, you finished #${userRank}! Please click on submit button to save your progress.`}
+        paragraph={`Hey ${user?.fname}, you finished #${userRank}!`}
+        topper={userRank !== 1 ? topper : null}
       />
 
       <div className="flex items-start justify-between w-full h-full">
@@ -268,6 +265,8 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
           currentProgress={currentProgress}
           setCurrentProgress={setCurrentProgress}
           setUserRank={setUserRank}
+          setTopper={setTopper}
+          finished={finished}
         />
       </div>
     </div>

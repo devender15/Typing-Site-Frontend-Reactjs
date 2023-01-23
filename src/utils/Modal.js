@@ -15,10 +15,9 @@ import {
 } from "react-icons/bs";
 
 const ModalComponent = (props) => {
-
-
-  const score = localStorage.getItem("currentProgress") ? JSON.parse(localStorage.getItem("currentProgress")) : null ;
-
+  const score = localStorage.getItem("currentProgress")
+    ? JSON.parse(localStorage.getItem("currentProgress"))
+    : null;
 
   return (
     <motion.div
@@ -42,25 +41,76 @@ const ModalComponent = (props) => {
         <Modal.Body>
           <p className="text-center">{props.paragraph}</p>
 
-          <div className="grid place-items-center my-2">
-            <h2 className="text-xl font-semibold">Your score</h2>
-            <div className="flex flex-col items-start mt-2">
-              <p><b>WPM </b>: {score?.speed} WPM</p>
-              <p><b>CPM </b>: {score?.cpmSpeed} CPM</p>
-              <p><b>Accuracy </b>: {score?.accuracy} %</p>
-              <p><b>Errors </b>: {score?.errorCount}</p>
+          <div className="flex flex-col md:flex-row justify-between items-center my-2 w-1/2 mx-auto">
+            <div className="my-2">
+              <h2 className="text-xl font-semibold">Your score</h2>
+              <div className="flex flex-col items-start mt-2">
+                <p>
+                  <b>WPM </b>: {score?.speed} WPM
+                </p>
+                <p>
+                  <b>CPM </b>: {score?.cpmSpeed} CPM
+                </p>
+                <p>
+                  <b>Accuracy </b>: {score?.accuracy} %
+                </p>
+                <p>
+                  <b>Errors </b>: {score?.errorCount}
+                </p>
+              </div>
             </div>
+
+            {props?.topper ? (
+              <>
+                {" "}
+                <div className="my-2">
+                  <h2 className="text-xl font-semibold">Topper's score</h2>
+                  <div className="flex flex-col items-start mt-2">
+                    <p>
+                      <b>WPM </b>: {props?.topper?.wpm}
+                    </p>
+                    <p>
+                      <b>Accuracy </b>: {props?.topper?.accuracy} %
+                    </p>
+                    <p>
+                      <b>Errors </b>: {props?.topper?.errors}
+                    </p>
+                    <p>
+                      <b>Time Taken </b>: {props?.topper?.time_taken} seconds
+                    </p>
+                  </div>
+                </div>
+              </>
+            ) : null}
           </div>
 
           <div className="grid place-items-center my-2">
-            <h2 className="text-xl font-semibold my-1">Share with your friends on : 😄</h2>
+            <h2 className="text-xl font-semibold my-1">
+              Share with your friends on : 😄
+            </h2>
             <div className="flex space-x-4 items-center">
-              <BsWhatsapp className="cursor-pointer" size={30} title="Whatsapp" />
-              <BsTelegram className="cursor-pointer" size={30} title="Telegram"/>
-              <BsInstagram className="cursor-pointer" size={30} title="Instagram" />
-              <BsFacebook className="cursor-pointer" size={30} title="Facebook"/>
-              <BsTwitter className="cursor-pointer" size={30} title="Twitter"/>
-              <BsYoutube className="cursor-pointer" size={30} title="Youtube"/>
+              <BsWhatsapp
+                className="cursor-pointer"
+                size={30}
+                title="Whatsapp"
+              />
+              <BsTelegram
+                className="cursor-pointer"
+                size={30}
+                title="Telegram"
+              />
+              <BsInstagram
+                className="cursor-pointer"
+                size={30}
+                title="Instagram"
+              />
+              <BsFacebook
+                className="cursor-pointer"
+                size={30}
+                title="Facebook"
+              />
+              <BsTwitter className="cursor-pointer" size={30} title="Twitter" />
+              <BsYoutube className="cursor-pointer" size={30} title="Youtube" />
             </div>
           </div>
         </Modal.Body>

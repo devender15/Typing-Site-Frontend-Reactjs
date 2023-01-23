@@ -18,6 +18,8 @@ const Sidebar = ({
   currentProgress,
   setCurrentProgress,
   setUserRank,
+  setTopper,
+  finished,
 }) => {
   const score = localStorage.getItem("currentProgress")
     ? JSON.parse(localStorage.getItem("currentProgress"))
@@ -63,8 +65,7 @@ const Sidebar = ({
         half_mistakes: 0,
         full_mistakes: 0,
         errors: incorrectWords,
-        time_taken: timeElapsed,
-        rank: 1,
+        time_taken: timeElapsed
       }),
     }).then((res) => {
       if (res.status === 201) {
@@ -73,7 +74,10 @@ const Sidebar = ({
           method: "GET",
         })
           .then((res) => res.json())
-          .then((data) => setUserRank(data.rank));
+          .then((data) => {
+            setUserRank(data.rank);
+            setTopper(data.topper);
+          });
       }
     });
   };
@@ -85,6 +89,9 @@ const Sidebar = ({
       setShowModal(true);
       setFinished(true);
     }
+
+    if(finished) saveProgress();
+
   }, [timeElapsed]);
 
   const minutes = timeElapsed / 60;
