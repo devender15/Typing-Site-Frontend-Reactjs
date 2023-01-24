@@ -65,7 +65,7 @@ const Sidebar = ({
         half_mistakes: 0,
         full_mistakes: 0,
         errors: incorrectWords,
-        time_taken: timeElapsed
+        time_taken: timeElapsed,
       }),
     }).then((res) => {
       if (res.status === 201) {
@@ -89,10 +89,13 @@ const Sidebar = ({
       setShowModal(true);
       setFinished(true);
     }
-
-    if(finished) saveProgress();
-
   }, [timeElapsed]);
+
+  // saving progress to get rank when user finishes typing
+  useEffect(() => {
+    if(finished) saveProgress();
+  }, [finished])
+
 
   const minutes = timeElapsed / 60;
 

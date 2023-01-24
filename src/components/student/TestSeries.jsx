@@ -102,7 +102,7 @@ const TestSeries = ({ user }) => {
 
                       <p className="flex space-x-2 items-center text-gray-500">
                         <GiLevelTwo color="gray" size={15} title="Level" />
-                        <span className="text-sm">{test?.paragraph}</span>
+                        <span className="text-sm capitalize">{test?.paragraph}</span>
                       </p>
                     </div>
                   </div>

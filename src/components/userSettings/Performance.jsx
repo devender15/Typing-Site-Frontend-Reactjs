@@ -20,36 +20,40 @@ const Performance = ({ user, userToken }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        // setting hasPerfomance boolean true to show the perfomance to user
-        setHasPerformance(true);
+        try {
+          // setting hasPerfomance boolean true to show the perfomance to user
+          setHasPerformance(true);
 
-        // calculating the average performance
-        if (data.length > 0) {
-          let wpm = 0;
-          let cpm = 0;
-          let accuracy = 0;
-          let errors = 0;
-          let time_taken = 0;
+          // calculating the average performance
+          if (data.length > 0) {
+            let wpm = 0;
+            let cpm = 0;
+            let accuracy = 0;
+            let errors = 0;
+            let time_taken = 0;
 
-          data?.forEach((score) => {
-            wpm += score.wpm;
-            cpm += score.cpm;
-            accuracy += score.accuracy;
-            errors += score.errors;
-            time_taken += score.time_taken;
-          });
+            data?.forEach((score) => {
+              wpm += score.wpm;
+              cpm += score.cpm;
+              accuracy += score.accuracy;
+              errors += score.errors;
+              time_taken += score.time_taken;
+            });
 
-          setOverallPerformance((prev) => {
-            let obj = { ...prev };
-            obj.wpm = (wpm / data.length).toFixed(2);
-            obj.cpm = (cpm / data.length).toFixed(2);
-            obj.accuracy = (accuracy / data.length).toFixed(2);
-            obj.time_taken = (time_taken / data.length).toFixed(2);
-            obj.errors = Math.ceil(errors / data.length);
-            return obj;
-          });
-        } else {
-          setHasPerformance(false);
+            setOverallPerformance((prev) => {
+              let obj = { ...prev };
+              obj.wpm = (wpm / data.length).toFixed(2);
+              obj.cpm = (cpm / data.length).toFixed(2);
+              obj.accuracy = (accuracy / data.length).toFixed(2);
+              obj.time_taken = (time_taken / data.length).toFixed(2);
+              obj.errors = Math.ceil(errors / data.length);
+              return obj;
+            });
+          } else {
+            setHasPerformance(false);
+          }
+        } catch {
+          console.log("some error has occurred!");
         }
       });
   }, []);
