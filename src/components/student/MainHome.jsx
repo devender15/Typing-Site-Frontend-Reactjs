@@ -3,20 +3,14 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { BsFillKeyboardFill } from "react-icons/bs";
 
+import Form from "react-bootstrap/Form";
+
 const MainHome = ({ loggedIn }) => {
   const [exams, setExams] = useState([]);
+  const [examsCopy, setExamsCopy] = useState([]);
   const [tests, setTests] = useState([]);
+  const [filter, setFilter] = useState("default");
   const navigate = useNavigate();
-
-  const [highlight, setHighlight] = useState(true);
-  const [backspace, setBackspace] = useState(true);
-  const [autoScrolling, setAutoScrolling] = useState(true);
-
-  let roomSettings = {
-    highlight,
-    backspace,
-    autoScrolling,
-  };
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/exams/list_all`, {
@@ -26,7 +20,10 @@ const MainHome = ({ loggedIn }) => {
       },
     })
       .then((res) => res.json())
-      .then((data) => setExams(data));
+      .then((data) => {
+        setExams(data);
+        setExamsCopy(data);
+      });
   }, []);
 
   useEffect(() => {
@@ -37,8 +34,58 @@ const MainHome = ({ loggedIn }) => {
       },
     })
       .then((res) => res.json())
-      .then((data) => setTests(data));
+      .then((data) => {
+        setTests(data);
+      });
   }, []);
+
+  useEffect(() => {
+    switch (filter) {
+      case "highAttempt":
+        setExams((prev) => {
+          let arr = [...examsCopy];
+          arr.sort((a, b) => (a.attempts > b.attempts ? -1 : 1));
+          return arr;
+        });
+        break;
+
+      case "highRated":
+        setExams((prev) => {
+          let arr = [...examsCopy];
+          arr.sort((a, b) => (a.rating > b.rating ? -1 : 1));
+          return arr;
+        });
+        break;
+
+      case "ssc":
+        setExams((prev) => {
+          let arr = [...examsCopy];
+          return arr?.filter((exam) => exam.name.toLowerCase() === "ssc");
+        });
+        break;
+
+      case "rrb":
+        setExams((prev) => {
+          let arr = [...examsCopy];
+          return arr?.filter((exam) => exam.name.toLowerCase() === "rrb");
+        });
+        break;
+
+      case "uppcl":
+        setExams((prev) => {
+          let arr = [...examsCopy];
+          return arr?.filter((exam) => exam.name.toLowerCase() === "uppcl");
+        });
+        break;
+
+      default:
+        setExams((prev) => {
+          let arr = [...examsCopy];
+          arr.sort((a, b) => (a.id < b.id ? -1 : 1));
+          return arr;
+        });
+    }
+  }, [filter]);
 
   return (
     <>
@@ -52,6 +99,31 @@ const MainHome = ({ loggedIn }) => {
       </header>
 
       <main className="bg-gray-100 p-4 w-full h-full flex flex-col space-y-4">
+        <div className="my-3 p-2 w-full">
+          <Form.Select
+            aria-label="filter"
+            className="cursor-pointer"
+            onChange={(e) => setFilter(e.target.value)}
+          >
+            <option value="default">None</option>
+            <option value="highAttempt" className="cursor-pointer">
+              Highest attempted exam
+            </option>
+            <option value="highRated" className="cursor-pointer">
+              Highest rated exam
+            </option>
+            <option value="ssc" className="cursor-pointer">
+              SSC
+            </option>
+            <option value="rrb" className="cursor-pointer">
+              RRB
+            </option>
+            <option value="uppcl" className="cursor-pointer">
+              UPPCL
+            </option>
+          </Form.Select>
+        </div>
+
         {exams?.map((exam) => {
           return (
             <section key={exam?.id} className="flex flex-col space-y-2">

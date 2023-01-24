@@ -10,9 +10,13 @@ import { FaUserAlt } from "react-icons/fa";
 import { GiLevelTwo } from "react-icons/gi";
 import { RiUser3Line } from "react-icons/ri";
 
+import { Ratings } from "../";
+
 const TestSeries = ({ user }) => {
   const { test_id } = useParams();
   const navigate = useNavigate();
+  // state for Ratings component
+  const [rating, setRating] = useState(0);
 
   const [liveTests, setLiveTests] = useState([]);
 
@@ -22,7 +26,13 @@ const TestSeries = ({ user }) => {
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/exams/get_live_tests/${test_id}`)
       .then((res) => res.json())
-      .then((data) => (data?.error ? navigate("/") : setLiveTests(data)));
+      .then((data) =>
+        data?.error
+          ? navigate("/")
+          : data?.length === 0
+          ? navigate("/")
+          : setLiveTests(data)
+      );
   }, []);
 
   const handleJoinRoom = (roomCode, test_id) => {
@@ -41,14 +51,28 @@ const TestSeries = ({ user }) => {
       .then((response) => {
         if (response.ok) {
           navigate(`/room/${roomCode}`);
-          // saving room settings in localStorage
-          // localStorage.setItem("roomSettings", JSON.stringify(roomSettings));
         } else {
           navigate(`/test-series/${test_id}`);
           console.log("Invalid Room Code!");
         }
       })
       .catch((error) => console.log(error));
+  };
+
+  const handleGiveRatings = () => {
+    fetch(`${process.env.REACT_APP_API_URL}/exams/rate`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + userToken,
+      },
+      body: JSON.stringify({
+        ratings: rating,
+        exam: liveTests[0]?.exam,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
   };
 
   return (
@@ -102,7 +126,9 @@ const TestSeries = ({ user }) => {
 
                       <p className="flex space-x-2 items-center text-gray-500">
                         <GiLevelTwo color="gray" size={15} title="Level" />
-                        <span className="text-sm capitalize">{test?.paragraph}</span>
+                        <span className="text-sm capitalize">
+                          {test?.paragraph}
+                        </span>
                       </p>
                     </div>
                   </div>
@@ -120,8 +146,8 @@ const TestSeries = ({ user }) => {
             })}
           </aside>
 
-          <aside className="p-4">
-            <div className="rounded-lg border-2 p-6 shadow-lg w-1/2 flex flex-col space-y-3">
+          <aside className="p-4 ">
+            <div className="rounded-lg border-2 p-6 shadow-lg w-full md:w-1/2 flex flex-col space-y-3">
               <RiUser3Line size={60} />
               <p className="font-semibold">{user?.fname}</p>
               <hr />
@@ -130,6 +156,19 @@ const TestSeries = ({ user }) => {
                 onClick={Logout}
               >
                 Log Out
+              </button>
+            </div>
+
+            <div className="rounded-lg shadow-lg flex flex-col space-y-3 justify-center items-center w-full p-2 !mt-10 ">
+              <h1 className="text-center font-semibold text-xl">
+                Rate this exam ⭐
+              </h1>
+              <Ratings rating={rating} setRating={setRating} />
+              <button
+                className="w-24 px-2 py-1 rounded-lg text-white shadow-lg font-semibold bg-gradient-to-r from-[#FFE000] to-[#fffd00] hover:ring-2 hover:ring-yellow-400 transition-all duration-300"
+                onClick={handleGiveRatings}
+              >
+                Rate
               </button>
             </div>
           </aside>

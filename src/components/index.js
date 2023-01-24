@@ -12,6 +12,7 @@ export { default as PendingRequests } from "./admin/PendingRequests";
 export { default as AddExam } from "./admin/AddExam";
 export { default as ExamList } from "./admin/ExamList";
 export { default as Spinner } from "./Spinner";
+export { default as Ratings } from "./Ratings";
 
 
 export { default as Typing } from "./typing/Typing";
