@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Alert from "react-bootstrap/Alert";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import notify from "../utils/toast";
 
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -11,8 +15,6 @@ import LoginBg from "../assets/login.jpg";
 const Login = () => {
   const { type } = useParams();
   const navigate = useNavigate();
-  const [showNotify, setShowNotify] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
 
   document.title = `Login as  ${type} | Typing Site`;
 
@@ -53,18 +55,10 @@ const Login = () => {
       // navigating to home
       navigate("/");
     } catch {
-      setShowNotify(true);
-      setErrorMessage("Invalid credentials!");
+      notify(toast, "Invalid credentials!", "error");
     }
   };
 
-  const notify = (varient, message) => {
-    return (
-      <Alert variant={varient} onClose={() => setShowNotify(false)} dismissible>
-        <p className="text-red-600">{message}</p>
-      </Alert>
-    );
-  };
 
   return (
     <div className="h-screen overflow-hidden">
@@ -73,8 +67,6 @@ const Login = () => {
           Login as {type}
         </h1>
       </header>
-
-      {showNotify && notify("primary", errorMessage)}
 
       <section className="my-2 p-2 grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-2">
         <aside className="h-[55%] hidden md:block">
@@ -166,6 +158,7 @@ const Login = () => {
           </div>
         </main>
       </section>
+      <ToastContainer />
     </div>
   );
 };

@@ -3,6 +3,11 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import fetchUser from "../../utils/FetchUser";
 import axios from "axios";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import notify from "../../utils/toast";
+
 import { FaUsers } from "react-icons/fa";
 import { GrPersonalComputer } from "react-icons/gr";
 import { BsBookFill } from "react-icons/bs";
@@ -22,18 +27,13 @@ const Teacher = ({
   user,
   roomCode,
   clearRoomCode,
-  notify,
-  showNotify,
-  setShowNotify,
   joinedToggle,
   setJoinedToggle,
   setLoggedIn,
 }) => {
   document.title = "Teacher Panel | Typing site";
   const userToken = fetchUser();
-
   const [text, setText] = useState("");
-  const [notifyData, setNotifyData] = useState("");
 
   const teacherOptions = [
     {
@@ -74,14 +74,11 @@ const Teacher = ({
 
     setText("");
 
-    setShowNotify(true);
-    setNotifyData(response.data.success);
+    notify(toast, response.data.success, "success");
   };
 
   return (
     <div className="p-2">
-      {showNotify && notify("success", notifyData)}
-
       <header className="flex flex-col items-center justify-center my-4">
         <div className="flex items-center space-x-2 my-4">
           <h2 className="font-semibold">Status: </h2>
@@ -185,6 +182,7 @@ const Teacher = ({
           element={<Settings user={user && user} userToken={userToken} />}
         />
       </Routes>
+      <ToastContainer />
     </div>
   );
 };

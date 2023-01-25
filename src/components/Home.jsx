@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
-// import { Routes, Route } from "react-router-dom";
 import axios from "axios";
-import Alert from "react-bootstrap/Alert";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import notify from "../utils/toast";
 
 import fetchUser from "../utils/FetchUser";
 
@@ -12,23 +15,13 @@ import MainHome from "./student/MainHome";
 import ProfileSettings from "./userSettings/ProfileSettings";
 
 const Home = () => {
-  // const navigate = useNavigate();
-  const userToken = fetchUser();
 
+  const userToken = fetchUser();
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(false);
   const [roomCode, setRoomCode] = useState(null);
-  const [showNotify, setShowNotify] = useState(false);
   const [joinedToggle, setJoinedToggle] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-
-  const notify = (varient, message) => {
-    return (
-      <Alert variant={varient} onClose={() => setShowNotify(false)} dismissible>
-        <p>{message}</p>
-      </Alert>
-    );
-  };
 
   const fetchUserData = async () => {
     try {
@@ -44,10 +37,11 @@ const Home = () => {
       setUserData(resp.data);
       setLoggedIn(true);
       setLoading(false);
-    } catch (err) {
+    } catch {
       localStorage.removeItem("user");
       setLoggedIn(false);
       setLoading(false);
+      notify(toast, "Logged out !", "success");
     }
   };
 
@@ -107,18 +101,12 @@ const Home = () => {
             user={userData}
             roomCode={roomCode}
             clearRoomCode={clearRoomCode}
-            notify={notify}
-            showNotify={showNotify}
-            setShowNotify={setShowNotify}
             joinedToggle={joinedToggle}
             setLoggedIn={setLoggedIn}
           />
         ) : (
           <Student
             user={userData}
-            notify={notify}
-            showNotify={showNotify}
-            setShowNotify={setShowNotify}
             joinedToggle={joinedToggle}
             setJoinedToggle={setJoinedToggle}
             loggedIn={loggedIn}
@@ -126,6 +114,7 @@ const Home = () => {
           />
         )}
       </div>
+      <ToastContainer />
     </>
   );
 };

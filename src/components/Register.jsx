@@ -2,6 +2,10 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import notify from "../utils/toast";
 import schoolBoards from "../utils/data";
 
 import { useFormik } from "formik";
@@ -71,19 +75,23 @@ const Register = () => {
   });
 
   const sendData = async (values) => {
-    const resp = await axios.post(
-      `${process.env.REACT_APP_API_URL}/user-auth/register`,
-      {
-        ...values,
-        is_superuser: false,
-        is_staff: checkTeacher,
-      }
-    );
+    try {
+      const resp = await axios.post(
+        `${process.env.REACT_APP_API_URL}/user-auth/register`,
+        {
+          ...values,
+          is_superuser: false,
+          is_staff: checkTeacher,
+        }
+      );
 
-    localStorage.setItem("user", JSON.stringify(resp.data.token.access));
+      localStorage.setItem("user", JSON.stringify(resp.data.token.access));
 
-    // navigating to home
-    navigate("/");
+      // navigating to home
+      navigate("/");
+    } catch {
+      notify(toast, "Something went wrong ! Try registering again", "error");
+    }
   };
 
   return (
@@ -452,6 +460,7 @@ const Register = () => {
           />
         </aside>
       </section>
+      <ToastContainer />
     </div>
   );
 };
