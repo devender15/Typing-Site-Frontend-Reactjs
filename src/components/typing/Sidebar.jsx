@@ -84,7 +84,6 @@ const Sidebar = ({
 
   useEffect(() => {
     if (timeElapsed >= time) {
-      saveProgress();
       setStartCounting(false);
       setShowModal(true);
       setFinished(true);
