@@ -70,7 +70,6 @@ const RoomDetails = () => {
                       <th>S.No.</th>
                       <th>Student Name</th>
                       <th>Student Email</th>
-                      <th>Student Phone</th>
                       <th>Rank</th>
                       <th>WPM</th>
                       <th>CPM</th>
@@ -89,7 +88,6 @@ const RoomDetails = () => {
                           <td>{idx + 1}</td>
                           <td>{data.student.name}</td>
                           <td>{data.student.email}</td>
-                          <td>{data.student.phone}</td>
                           <td>{data.rank}</td>
                           <td>{isNaN(data.wpm) ? 0 : data.wpm}</td>
                           <td>{data.cpm}</td>
