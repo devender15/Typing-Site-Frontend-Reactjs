@@ -1,4 +1,4 @@
-import React, { useState, memo } from "react";
+import React, { useState, memo, useRef } from "react";
 // import axios from "axios";
 import { FaUserTie } from "react-icons/fa";
 import { IoCaretBack } from "react-icons/io5";
@@ -98,8 +98,15 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
   const [userRank, setUserRank] = useState(0);
   const [topper, setTopper] = useState({});
 
+  // paragraph container ref
+  const paragraphContainer = useRef(null);
+  const [currentLine, setCurrentLine] = useState("");
+  const [currentWord, setCurrentWord] = useState(0);
+
   // typing paragraph
   const getCloud = paragraph(roomSettings, roomDetails);
+
+  const originalParagraph = getCloud;
 
   // here goes our functins and hooks
   const eventHandler = (e) => {
@@ -107,9 +114,9 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
       if (roomSettings?.backspace) {
         setBackspaceKeyCount((prev) => prev + 1);
         setKeystrokes(keystrokes - 1);
+      } else {
+        e.preventDefault(); // if user doesn't want to press backspace key
       }
-
-      e.stopPropagation();
     }
   };
 
@@ -125,9 +132,22 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
       setStartCounting(true);
     }
 
+
+    setCurrentLine(currentLine + value + " ");
+    if (
+      currentLine.trim() ===
+      originalParagraph
+        .slice(currentWord, currentWord + value.split(" ").length)
+        .join(" ")
+    ) {
+      setCurrentWord(currentWord + value.split(" ").length);
+      setCurrentLine("");
+      paragraphContainer.current.scrollTop =
+        paragraphContainer.current.scrollHeight;
+    }
+
     if (value.endsWith(" ")) {
       // user has finished the word
-
       if (activeWordIndex === getCloud.length - 1) {
         // overflow
         setStartCounting(false);
@@ -217,7 +237,10 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
           </div>
 
           <div className="h-[40%] overflow-hidden">
-            <div className="mt-4 mb-2 border-2 overflow-y-scroll h-[9rem] w-[50%] break-words p-1">
+            <div
+              className="mt-4 mb-2 border-2 overflow-y-scroll h-[9rem] w-[50%] break-words p-1"
+              ref={paragraphContainer}
+            >
               <p className="h-full">
                 {getCloud?.map((word, index) => {
                   return (
