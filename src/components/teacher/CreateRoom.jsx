@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import notify from "../../utils/toast";
+
 const CreateRoom = ({ userToken }) => {
   const [tests, setTests] = useState([]);
   const [filteredTests, setFilteredTests] = useState([]);
   const [exams, setExams] = useState([]);
-
 
   // room configs
   const [examSelected, setExamSelected] = useState(1);
@@ -33,10 +37,11 @@ const CreateRoom = ({ userToken }) => {
       localStorage.clear();
       navigate("/options");
     }
-  }, []);
+  });
 
   const filterTests = () => {
     const filteredArray = tests?.filter((test) => test.exam == examSelected);
+    setTest(filteredArray[0]?.name);
     setFilteredTests(filteredArray);
   };
 
@@ -72,9 +77,15 @@ const CreateRoom = ({ userToken }) => {
       }),
     };
 
-    fetch(`${process.env.REACT_APP_API_URL}/room/create-room`, request)
-      .then((response) => response.json())
-      .then((data) => navigate(`/room/${data.code}`));
+
+    // validating the time field
+    if (Number(time) === NaN || Number(time) === 0) {
+      notify(toast, "Make sure your time limit is correct!", "error");
+    } else {
+      fetch(`${process.env.REACT_APP_API_URL}/room/create-room`, request)
+        .then((response) => response.json())
+        .then((data) => navigate(`/room/${data.code}`));
+    }
   };
 
   return (
@@ -179,7 +190,11 @@ const CreateRoom = ({ userToken }) => {
           <div className="w-full py-4 flex items-center justify-center">
             <button
               className="rounded-lg text-white bg-green-600 px-2 py-1 disabled:bg-gray-400"
-              disabled={criteria.length === 0 || paragraphText.length === 0 || paragraphText?.split(" ")?.length < 50}
+              disabled={
+                criteria.length === 0 ||
+                paragraphText.length === 0 ||
+                paragraphText?.split(" ")?.length < 50
+              }
               onClick={handleCreateRoom}
             >
               Create Room
@@ -191,4 +206,4 @@ const CreateRoom = ({ userToken }) => {
   );
 };
 
-export default CreateRoom;
+export default React.memo(CreateRoom);

@@ -10,7 +10,7 @@ const ProfileSettings = ({ userToken, user }) => {
   // if user is not logged in then redirect to home page
   useEffect(() => {
     if (!userToken) navigate("/");
-  }, []);
+  });
 
   return (
     <div className="py-20 md:py-0 grid place-items-center grid-cols-1 md:!px-20 md:absolute md:top-1/2 md:transform md:-translate-y-1/2 w-full md:grid-cols-2 gap-10 md:gap-0">
