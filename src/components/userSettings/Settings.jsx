@@ -11,7 +11,7 @@ const Settings = ({ user, userToken }) => {
     <Routes>
         <Route path="/" element={<ProfileSettings userToken={userToken} user={user}/>}/>
         <Route path="/performance" element={<Performance user={user} userToken={userToken}/>}/>
-        <Route path="/account" element={<Account user={user} />}/>
+        <Route path="/account" element={<Account user={user} userToken={userToken} />}/>
     </Routes>
   )
 }

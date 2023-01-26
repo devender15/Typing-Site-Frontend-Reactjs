@@ -92,21 +92,6 @@ const Teacher = ({
             </p>
           )}
         </div>
-
-        <div className="my-2 flex flex-col space-y-2 items-center p-2 border-2 rounded-md bg-gray-300">
-          <h2>
-            Teacher name: <span className="font-semibold">{user?.fname}</span>
-          </h2>
-
-          <h2>
-            Teacher's email:{" "}
-            <span className="font-semibold">{user?.email}</span>
-          </h2>
-
-          <h2>
-            Institute: <span className="font-semibold">{user?.institute}</span>
-          </h2>
-        </div>
       </header>
 
       <main>
@@ -174,7 +159,7 @@ const Teacher = ({
         />
         <Route
           path="/live-contests"
-          element={<LiveTests user={user && user} />}
+          element={<LiveTests userToken={userToken} />}
         />
         <Route path="/room-details/:roomId" element={<RoomDetails />} />
         <Route

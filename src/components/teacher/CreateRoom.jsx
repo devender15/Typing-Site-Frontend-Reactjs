@@ -171,6 +171,7 @@ const CreateRoom = ({ userToken }) => {
               id="paragraph"
               value={paragraphText}
               onChange={(e) => setParagraphText(e.target.value)}
+              placeholder="Paragraph should not be less than 50 words"
               className="w-full rounded-lg p-2 outline-none text-sm font-semibold"
             ></textarea>
           </div>
@@ -178,7 +179,7 @@ const CreateRoom = ({ userToken }) => {
           <div className="w-full py-4 flex items-center justify-center">
             <button
               className="rounded-lg text-white bg-green-600 px-2 py-1 disabled:bg-gray-400"
-              disabled={criteria.length === 0 || paragraphText.length === 0}
+              disabled={criteria.length === 0 || paragraphText.length === 0 || paragraphText?.split(" ")?.length < 50}
               onClick={handleCreateRoom}
             >
               Create Room

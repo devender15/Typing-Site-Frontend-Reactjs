@@ -49,7 +49,7 @@ const ModalComponent = (props) => {
                   <b>WPM </b>: {score?.speed} WPM
                 </p>
                 <p>
-                  <b>CPM </b>: {score?.cpmSpeed} CPM
+                  <b>CPM </b>: {score?.cpmSpeed?.toFixed(2)} CPM
                 </p>
                 <p>
                   <b>Accuracy </b>: {score?.accuracy} %

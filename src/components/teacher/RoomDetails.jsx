@@ -41,9 +41,11 @@ const RoomDetails = () => {
   return (
     <>
       <section className="w-full h-full">
-        <h1 className="text-center my-3 font-semibold text-2xl">
-          Room History
-        </h1>
+        {roomData?.length === 0 && (
+          <h1 className="text-center my-3 font-semibold text-2xl">
+            Room History
+          </h1>
+        )}
 
         {roomData?.length !== 0 && (
           <div className="w-full">
@@ -117,7 +119,9 @@ const RoomDetails = () => {
               </div>
             </>
           ) : (
-            <p className="text-lg text-center font-normal">No data found !</p>
+            <p className="text-lg text-center font-normal">
+              No one joined this room !
+            </p>
           )}
         </main>
       </section>
