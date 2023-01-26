@@ -70,6 +70,8 @@ const TestSeries = ({ user }) => {
       .then((response) => {
         if (response.ok) {
           navigate(`/room/${roomCode}`);
+        } else if (response.status === 401) {
+          notify(toast, "Login first to start test !", "error");
         } else {
           navigate(`/test-series/${test_id}`);
           notify(toast, "Invalid room !", "error");
@@ -90,7 +92,10 @@ const TestSeries = ({ user }) => {
         exam: liveTests[0]?.exam,
       }),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if(res.ok) res.json()
+        else if(res.status === 401) notify(toast, "Please login to give ratings", "warning")
+      })
       .then((data) => {
         notify(
           toast,

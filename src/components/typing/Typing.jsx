@@ -219,7 +219,7 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
           <div className="h-[40%] overflow-hidden">
             <div className="mt-4 mb-2 border-2 overflow-y-scroll h-[9rem] w-[50%] break-words p-1">
               <p className="h-full">
-                {getCloud.map((word, index) => {
+                {getCloud?.map((word, index) => {
                   return (
                     <Word
                       key={index}
@@ -254,7 +254,7 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
           startCounting={startCounting}
           setStartCounting={setStartCounting}
           leaveRoomCallback={leaveRoomCallback}
-          totalwords={getCloud.length}
+          totalwords={getCloud?.length}
           backspaceKeyCount={backspaceKeyCount}
           keystrokes={keystrokes}
           time={time}
