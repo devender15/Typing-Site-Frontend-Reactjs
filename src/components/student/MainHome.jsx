@@ -76,12 +76,22 @@ const MainHome = ({ loggedIn }) => {
           arr.sort((a, b) => (a.attempts > b.attempts ? -1 : 1));
           return arr;
         });
+        setTeachersList((prev) => {
+          let arr = [...prev];
+          arr = [];
+          return arr;
+        });
         break;
 
       case "highRated":
         setExams((prev) => {
           let arr = [...examsCopy];
           arr.sort((a, b) => (a.rating > b.rating ? -1 : 1));
+          return arr;
+        });
+        setTeachersList((prev) => {
+          let arr = [...prev];
+          arr = [];
           return arr;
         });
         break;
@@ -91,6 +101,11 @@ const MainHome = ({ loggedIn }) => {
           let arr = [...examsCopy];
           return arr?.filter((exam) => exam.name.toLowerCase() === "ssc");
         });
+        setTeachersList((prev) => {
+          let arr = [...prev];
+          arr = [];
+          return arr;
+        });
         break;
 
       case "rrb":
@@ -98,12 +113,22 @@ const MainHome = ({ loggedIn }) => {
           let arr = [...examsCopy];
           return arr?.filter((exam) => exam.name.toLowerCase() === "rrb");
         });
+        setTeachersList((prev) => {
+          let arr = [...prev];
+          arr = [];
+          return arr;
+        });
         break;
 
       case "uppcl":
         setExams((prev) => {
           let arr = [...examsCopy];
           return arr?.filter((exam) => exam.name.toLowerCase() === "uppcl");
+        });
+        setTeachersList((prev) => {
+          let arr = [...prev];
+          arr = [];
+          return arr;
         });
         break;
 
