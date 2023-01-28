@@ -5,12 +5,7 @@ import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 
 // importing social media icons
-import {
-  BsFacebook,
-  BsWhatsapp,
-  BsTelegram,
-  BsTwitter,
-} from "react-icons/bs";
+import { BsFacebook, BsWhatsapp, BsTelegram, BsTwitter } from "react-icons/bs";
 
 const ModalComponent = (props) => {
   const score = localStorage.getItem("currentProgress")

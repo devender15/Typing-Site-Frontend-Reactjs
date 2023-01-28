@@ -159,18 +159,9 @@ const MainHome = ({ loggedIn }) => {
 
   const fetchTeachers = async () => {
     const res = await fetch(
-      `${process.env.REACT_APP_API_URL}/user-auth/teachers-list`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + userToken,
-        },
-      }
+      `${process.env.REACT_APP_API_URL}/user-auth/teachers-list`
     );
-
     const data = await res.json();
-
     setTeachersList(data);
   };
 
