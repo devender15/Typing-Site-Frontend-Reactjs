@@ -41,7 +41,7 @@ const Home = () => {
       localStorage.removeItem("user");
       setLoggedIn(false);
       setLoading(false);
-      notify(toast, "Logged out !", "success");
+      notify(toast, "Logged out !", "warning");
     }
   };
 
