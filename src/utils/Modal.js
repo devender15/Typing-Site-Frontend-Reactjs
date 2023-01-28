@@ -4,16 +4,12 @@ import Modal from "react-bootstrap/Modal";
 import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 
-import { Link } from "react-router-dom";
-
 // importing social media icons
 import {
   BsFacebook,
   BsWhatsapp,
   BsTelegram,
-  BsInstagram,
   BsTwitter,
-  BsYoutube,
 } from "react-icons/bs";
 
 const ModalComponent = (props) => {
