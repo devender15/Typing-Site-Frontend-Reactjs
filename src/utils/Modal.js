@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 
-import { TwitterShareButton } from "react-twitter-embed";
+import { Link } from "react-router-dom";
 
 // importing social media icons
 import {
@@ -20,6 +20,10 @@ const ModalComponent = (props) => {
   const score = localStorage.getItem("currentProgress")
     ? JSON.parse(localStorage.getItem("currentProgress"))
     : null;
+
+  const TEXT = encodeURI(
+    `Hey, I just scored ${score?.speed} WPM on Typing Speed Test 🤩. Can you beat me?\n\n Show your typing skills and compete with your friends. \n\n https://monkeytype.com/`
+  );
 
   return (
     <motion.div
@@ -91,38 +95,50 @@ const ModalComponent = (props) => {
               Share with your friends on : 😄
             </h2>
             <div className="flex space-x-4 items-center">
-              <BsWhatsapp
-                className="cursor-pointer"
-                size={30}
-                title="Whatsapp"
-              />
-              <BsTelegram
-                className="cursor-pointer"
-                size={30}
-                title="Telegram"
-              />
-              <BsInstagram
-                className="cursor-pointer"
-                size={30}
-                title="Instagram"
-              />
-              <BsFacebook
-                className="cursor-pointer"
-                size={30}
-                title="Facebook"
-              />
-              {/* <BsTwitter className="cursor-pointer" size={30} title="Twitter" /> */}
-              <button
-                onClick={() => (
-                  <TwitterShareButton
-                    url="https://twitter.com/intent/tweet"
-                    text="it is working!!!!"
-                  />
-                )}
+              <a
+                href={`whatsapp://send?text=${TEXT}`}
+                target="_blank"
+                rel="nofollow noopener"
               >
-                Share on Twitter
-              </button>
-              <BsYoutube className="cursor-pointer" size={30} title="Youtube" />
+                <BsWhatsapp
+                  className="cursor-pointer"
+                  size={30}
+                  title="Whatsapp"
+                />
+              </a>
+              <a
+                href={`https://telegram.me/share/url?text=${TEXT}`}
+                target="_blank"
+                rel="nofollow noopener"
+              >
+                <BsTelegram
+                  className="cursor-pointer"
+                  size={30}
+                  title="Telegram"
+                />
+              </a>
+              <a
+                href={`https://www.facebook.com/sharer/sharer.php?u=${TEXT}`}
+                target="_blank"
+                rel="nofollow noopener"
+              >
+                <BsFacebook
+                  className="cursor-pointer"
+                  size={30}
+                  title="Facebook"
+                />
+              </a>
+              <a
+                href={`https://twitter.com/intent/tweet?text=${TEXT}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <BsTwitter
+                  className="cursor-pointer"
+                  size={30}
+                  title="Twitter"
+                />
+              </a>
             </div>
           </div>
         </Modal.Body>
