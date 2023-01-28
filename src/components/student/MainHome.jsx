@@ -5,12 +5,41 @@ import { BsFillKeyboardFill } from "react-icons/bs";
 
 import Form from "react-bootstrap/Form";
 
+import fetchUser from "../../utils/FetchUser";
+import { GiTeacher } from "react-icons/gi";
+
 const MainHome = ({ loggedIn }) => {
   const [exams, setExams] = useState([]);
   const [examsCopy, setExamsCopy] = useState([]);
   const [tests, setTests] = useState([]);
   const [filter, setFilter] = useState("default");
+  const [subFilter, setSubFilter] = useState("");
+  const [teachersList, setTeachersList] = useState([]);
   const navigate = useNavigate();
+
+  const [selectedOption, setSelectedOption] = useState("");
+  const [selectedSubOption, setSelectedSubOption] = useState("");
+
+  const userToken = fetchUser();
+
+  const options = [
+    {
+      value: "option1",
+      label: "Option 1",
+      subOptions: [
+        { value: "subOption1", label: "Sub Option 1" },
+        { value: "subOption2", label: "Sub Option 2" },
+      ],
+    },
+    {
+      value: "option2",
+      label: "Option 2",
+      subOptions: [
+        { value: "subOption3", label: "Sub Option 3" },
+        { value: "subOption4", label: "Sub Option 4" },
+      ],
+    },
+  ];
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/exams/list_all`, {
@@ -78,14 +107,47 @@ const MainHome = ({ loggedIn }) => {
         });
         break;
 
+      case "teachers":
+        fetchTeachers();
+        break;
+
       default:
         setExams((prev) => {
           let arr = [...examsCopy];
           arr.sort((a, b) => (a.id < b.id ? -1 : 1));
           return arr;
         });
+        setTeachersList((prev) => {
+          let arr = [...prev];
+          arr = [];
+          return arr;
+        });
     }
   }, [filter]);
+
+  useEffect(() => {
+    setExams((prev) => {
+      let arr = [...examsCopy];
+      return arr?.filter((exam) => exam?.teacher === subFilter);
+    });
+  }, [subFilter]);
+
+  const fetchTeachers = async () => {
+    const res = await fetch(
+      `${process.env.REACT_APP_API_URL}/user-auth/teachers-list`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + userToken,
+        },
+      }
+    );
+
+    const data = await res.json();
+
+    setTeachersList(data);
+  };
 
   return (
     <>
@@ -99,29 +161,52 @@ const MainHome = ({ loggedIn }) => {
       </header>
 
       <main className="bg-gray-100 p-4 w-full h-full flex flex-col space-y-4">
-        <div className="my-3 p-2 w-full">
-          <Form.Select
-            aria-label="filter"
-            className="cursor-pointer"
-            onChange={(e) => setFilter(e.target.value)}
-          >
-            <option value="default">None</option>
-            <option value="highAttempt" className="cursor-pointer">
-              Highest attempted exam
-            </option>
-            <option value="highRated" className="cursor-pointer">
-              Highest rated exam
-            </option>
-            <option value="ssc" className="cursor-pointer">
-              SSC
-            </option>
-            <option value="rrb" className="cursor-pointer">
-              RRB
-            </option>
-            <option value="uppcl" className="cursor-pointer">
-              UPPCL
-            </option>
-          </Form.Select>
+        <div className="flex items-center w-full">
+          <div className="my-3 p-2 basis-1/2">
+            <Form.Select
+              aria-label="filter"
+              className="cursor-pointer"
+              value={filter}
+              onChange={(e) => setFilter(e.target.value)}
+            >
+              <option value="default">None</option>
+              <option value="highAttempt" className="cursor-pointer">
+                Highest attempted exam
+              </option>
+              <option value="highRated" className="cursor-pointer">
+                Highest rated exam
+              </option>
+              <option value="teachers" className="cursor-pointer">
+                Teachers ▶
+              </option>
+              <option value="ssc" className="cursor-pointer">
+                SSC
+              </option>
+              <option value="rrb" className="cursor-pointer">
+                RRB
+              </option>
+              <option value="uppcl" className="cursor-pointer">
+                UPPCL
+              </option>
+            </Form.Select>
+          </div>
+
+          <div className="basis-1/2">
+            {filter && (
+              <Form.Select
+                value={subFilter}
+                onChange={(e) => setSubFilter(e.target.value)}
+              >
+                {teachersList?.map((teacher) => {
+                  return (
+                    <option key={teacher?.id} value={teacher?.fname}>
+                      {teacher?.fname}
+                    </option>
+                  );
+                })}
+              </Form.Select>
+            )}
+          </div>
         </div>
 
         {exams?.map((exam) => {

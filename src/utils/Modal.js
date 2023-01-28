@@ -4,6 +4,8 @@ import Modal from "react-bootstrap/Modal";
 import { motion } from "framer-motion";
 import Confetti from "react-confetti";
 
+import { TwitterShareButton } from "react-twitter-embed";
+
 // importing social media icons
 import {
   BsFacebook,
@@ -109,7 +111,17 @@ const ModalComponent = (props) => {
                 size={30}
                 title="Facebook"
               />
-              <BsTwitter className="cursor-pointer" size={30} title="Twitter" />
+              {/* <BsTwitter className="cursor-pointer" size={30} title="Twitter" /> */}
+              <button
+                onClick={() => (
+                  <TwitterShareButton
+                    url="https://twitter.com/intent/tweet"
+                    text="it is working!!!!"
+                  />
+                )}
+              >
+                Share on Twitter
+              </button>
               <BsYoutube className="cursor-pointer" size={30} title="Youtube" />
             </div>
           </div>
