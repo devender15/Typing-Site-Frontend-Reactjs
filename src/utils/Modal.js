@@ -94,7 +94,7 @@ const ModalComponent = (props) => {
               <a
                 href={`whatsapp://send?text=${TEXT}`}
                 target="_blank"
-                rel="nofollow noopener"
+                rel="nofollow noopener noreferrer"
               >
                 <BsWhatsapp
                   className="cursor-pointer"
@@ -105,7 +105,7 @@ const ModalComponent = (props) => {
               <a
                 href={`https://telegram.me/share/url?text=${TEXT}`}
                 target="_blank"
-                rel="nofollow noopener"
+                rel="nofollow noopener noreferrer"
               >
                 <BsTelegram
                   className="cursor-pointer"
@@ -116,7 +116,7 @@ const ModalComponent = (props) => {
               <a
                 href={`https://www.facebook.com/sharer/sharer.php?u=${TEXT}`}
                 target="_blank"
-                rel="nofollow noopener"
+                rel="nofollow noopener noreferrer"
               >
                 <BsFacebook
                   className="cursor-pointer"
@@ -127,7 +127,7 @@ const ModalComponent = (props) => {
               <a
                 href={`https://twitter.com/intent/tweet?text=${TEXT}`}
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener noreferrer noreferrer"
               >
                 <BsTwitter
                   className="cursor-pointer"
