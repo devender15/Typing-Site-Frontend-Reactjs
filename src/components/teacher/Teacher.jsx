@@ -151,7 +151,7 @@ const Teacher = ({
         />
         <Route
           path="/see-all-exams"
-          element={user?.approved && <ExamList userToken={userToken} />}
+          element={user?.approved && <ExamList user={user} userToken={userToken} />}
         />
         <Route
           path="/see-all-previous-contests/*"

@@ -85,7 +85,7 @@ function AddTest({ userToken, exam }) {
 CardContainer = memo(CardContainer);
 Card = memo(Card);
 
-const ExamList = ({ userToken }) => {
+const ExamList = ({ userToken, user }) => {
   const navigate = useNavigate();
   const [examData, setExamData] = useState([]);
   const [showAddExam, setShowAddExam] = useState(false);
@@ -149,7 +149,7 @@ const ExamList = ({ userToken }) => {
         </button>
       </div>
 
-      {showAddExam && <AddExam userToken={userToken} exams={examData} setExamData={setExamData}/>}
+      {showAddExam && <AddExam userToken={userToken} user={user} exams={examData} setExamData={setExamData}/>}
 
       <div>
         <CardContainer data={examData} setSelectedExam={setSelectedExam} />

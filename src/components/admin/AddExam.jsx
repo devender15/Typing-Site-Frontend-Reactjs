@@ -3,13 +3,13 @@ import { BsBookHalf } from "react-icons/bs";
 
 import axios from "axios";
 
-const AddExam = ({ userToken, setExamData }) => {
+const AddExam = ({ userToken, setExamData, user }) => {
   const [examName, setExamName] = useState("");
 
   const postExam = async () => {
     const resp = await axios.post(
       `${process.env.REACT_APP_API_URL}/exams/add_exam`,
-      { exam_name: examName },
+      { exam_name: examName, teacher: user?.fname },
       {
         headers: {
           "Content-Type": "application/json",
