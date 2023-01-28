@@ -165,12 +165,6 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
         const word = value.trim();
         const newResult = [...data];
         newResult[activeWordIndex] = word === getCloud[activeWordIndex];
-
-        // saving the indices of all correct words
-        setCurrentProgress((prev) => {
-          return { ...prev, correctIndices: newResult };
-        });
-
         return newResult;
       });
 
@@ -179,19 +173,11 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
         const word = value.trim();
         const newResult = [...data];
         newResult[activeWordIndex] = word !== getCloud[activeWordIndex];
-
-        // saving the indices of all incorrect words
-        setCurrentProgress((prev) => {
-          return { ...prev, incorrectIndices: newResult };
-        });
-
         return newResult;
       });
     } else {
       setUserInput(value);
     }
-
-    // localStorage.setItem("currentProgress", JSON.stringify(currentProgress));
   };
 
   return (
@@ -228,6 +214,7 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
         heading="Test finished! 🎉"
         paragraph={`Hey ${user?.fname}, you finished #${userRank}!`}
         topper={userRank !== 1 ? topper : null}
+        currentprogress={currentProgress}
       />
 
       <div className="flex items-start justify-between w-full h-full">
@@ -284,7 +271,6 @@ const Typing = ({ user, cachedData, time, roomDetails, leaveRoomCallback }) => {
           setShowModal={setShowModal}
           setFinished={setFinished}
           roomDetails={roomDetails}
-          activeWordIndex={activeWordIndex}
           currentProgress={currentProgress}
           setCurrentProgress={setCurrentProgress}
           setUserRank={setUserRank}

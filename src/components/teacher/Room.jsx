@@ -35,6 +35,21 @@ const Room = ({ userToken, leaveRoomCallback, user, joinedToggle }) => {
 
   document.title = "Typing Test Room | Typing site";
 
+  useEffect(() => {
+    const onBeforeUnload = (e) => {
+      let confirmMessage = "If you refresh the page, your data will be lost!";
+
+      (e || window.event).returnValue = confirmMessage;
+      return confirmMessage;
+    };
+
+    window.addEventListener("beforeunload", onBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", onBeforeUnload);
+    };
+  }, []);
+
   // checking if the user is already in a room or not
   useEffect(() => {
     fetch(`${process.env.REACT_APP_API_URL}/room/user-in-room`, {
@@ -101,35 +116,9 @@ const Room = ({ userToken, leaveRoomCallback, user, joinedToggle }) => {
 
   const renderInstructions = () => {
     return (
-      <div className="flex flex-col space-y-2 justify-center p-2 mx-auto shadow-md rounded-md items-center border-2 border-teal-400 w-[75%] max-h-[60%] my-10 overflow-y-scroll break-words">
+      <div className="flex flex-col space-y-2 justify-center p-2 mx-auto shadow-md rounded-md items-center border-2 border-teal-400 w-[75%] max-h-[40rem] my-10 overflow-y-auto break-words">
         <h2 className="text-center text-xl font-bold">General Instructions</h2>
         <p className="font-semibold">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut nemo
-          beatae aspernatur ratione neque sequi aperiam nostrum minus sit earum
-          accusantium, harum esse magni voluptas, consequuntur ipsam maxime qui.
-          Totam minima deleniti iusto. Id in voluptatem similique, ullam
-          explicabo nesciunt dolore natus et vel harum iusto earum veniam?
-          Adipisci perferendis, enim illum veritatis sunt optio molestiae quam
-          aspernatur sint eos ab voluptas culpa ipsam? Rerum cum omnis
-          praesentium enim repellat iste dignissimos iusto veniam doloribus
-          autem aperiam assumenda, quo recusandae. Sit tenetur atque quam
-          consequuntur sed accusantium nemo, distinctio fuga suscipit
-          consectetur perferendis veritatis cupiditate quaerat nisi eum harum
-          ipsam voluptate magnam? Ducimus maiores sint asperiores aperiam,
-          itaque reiciendis sed delectus est ipsa adipisci amet, at ipsum fugit
-          ut nam excepturi rem saepe iste a inventore repellendus ex? Sed
-          cupiditate esse amet deleniti ab itaque perferendis impedit eum
-          provident id molestiae dolorum animi eaque aliquam exercitationem,
-          reprehenderit pariatur fugit officia consequuntur sed accusantium
-          nemo, distinctio fuga suscipit consectetur perferendis veritatis
-          cupiditate quaerat nisi eum harum ipsam voluptate magnam? Ducimus
-          maiores sint asperiores aperiam, itaque reiciendis sed delectus est
-          ipsa adipisci amet, at ipsum fugit ut nam excepturi rem saepe iste a
-          inventore repellendus ex? Sed cupiditate esse amet deleniti ab itaque
-          perferendis impedit eum provident id molestiae dolorum animi eaque
-          aliquam exercitationem, reprehenderit pariatur fugit officia.
-          consequuntur sed accusantium nemo, distinctio fuga suscipit
-          consectetur perferendis veritatis cupiditate quaerat nisi eum harum
           ipsam voluptate magnam? Ducimus maiores sint asperiores aperiam,
           itaque reiciendis sed delectus est ipsa adipisci amet, at ipsum fugit
           ut nam excepturi rem saepe iste a inventore repellendus ex? Sed
@@ -212,7 +201,7 @@ const Room = ({ userToken, leaveRoomCallback, user, joinedToggle }) => {
             localStorage.setItem("roomSettings", JSON.stringify(roomSettings));
           }}
         >
-          I understand
+          Start test
         </button>
       </div>
     );

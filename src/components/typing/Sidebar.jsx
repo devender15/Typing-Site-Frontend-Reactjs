@@ -14,7 +14,6 @@ const Sidebar = ({
   setShowModal,
   setFinished,
   leaveRoomCallback,
-  activeWordIndex,
   currentProgress,
   setCurrentProgress,
   setUserRank,
@@ -92,32 +91,35 @@ const Sidebar = ({
 
   // saving progress to get rank when user finishes typing
   useEffect(() => {
-    if(finished) saveProgress();
-  }, [finished])
-
+    if (finished) {
+      saveProgress();
+      // saving the current progress to localStorage
+      setCurrentProgress({
+        ...currentProgress,
+        errorCount: incorrectWords,
+        cpmSpeed: speed * 5,
+        speed: speed,
+        accuracy: accuracy,
+      });
+    }
+  }, [finished]);
 
   const minutes = timeElapsed / 60;
 
   useEffect(() => {
-    setSpeed((correctWords / minutes).toFixed(2));
-    setAccuracy(
-      ((correctWords / (correctWords + incorrectWords)) * 100).toFixed(2)
-    );
-
-    // saving the current progress to localStorage
-    setCurrentProgress({
-      ...currentProgress,
-      activeIndex: activeWordIndex,
-      keystrokes: keystrokes,
-      backspaceCount: backspaceKeyCount,
-      errorCount: incorrectWords,
-      typedWords: correctWords + incorrectWords,
-      speed: speed,
-      cpmSpeed: speed * 5,
-      accuracy: accuracy,
+    setSpeed((prev) => {
+      let newSpeed = prev;
+      newSpeed = (correctWords / minutes).toFixed(2);
+      return newSpeed;
     });
-
-    localStorage.setItem("currentProgress", JSON.stringify(currentProgress));
+    setAccuracy((prev) => {
+      let newAccuracy = prev;
+      newAccuracy = (
+        (correctWords / (correctWords + incorrectWords)) *
+        100
+      ).toFixed(2);
+      return newAccuracy;
+    });
   }, [correctWords, incorrectWords, timeElapsed]);
 
   const handleLeaveRoom = () => {

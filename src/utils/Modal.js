@@ -8,9 +8,8 @@ import Confetti from "react-confetti";
 import { BsFacebook, BsWhatsapp, BsTelegram, BsTwitter } from "react-icons/bs";
 
 const ModalComponent = (props) => {
-  const score = localStorage.getItem("currentProgress")
-    ? JSON.parse(localStorage.getItem("currentProgress"))
-    : null;
+
+  const score = props?.currentprogress;
 
   const TEXT = encodeURI(
     `Hey, I just scored ${score?.speed} WPM on Typing Speed Test 🤩. Can you beat me?\n\n Show your typing skills and compete with your friends. \n\n https://monkeytype.com/`
@@ -109,7 +108,7 @@ const ModalComponent = (props) => {
                 />
               </a>
               <a
-                href={`https://www.facebook.com/sharer/sharer.php?u=${TEXT}`}
+                href={`https://www.facebook.com/sharer/sharer.php?u=https://monkeytype.com/`}
                 target="_blank"
                 rel="nofollow noopener noreferrer"
               >
